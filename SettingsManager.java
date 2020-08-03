@@ -1,9 +1,9 @@
-package com.ricardo.MineArchPets;
+package io.github.ricardormdev.bossaddon;
 
+import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.InputStream;
@@ -37,14 +37,17 @@ public class SettingsManager {
     private SettingsManager(String fileName) {
         this.fileName = fileName;
         if (!Main.getInstance().getDataFolder().exists()) {
-            Main.getInstance().getDataFolder().mkdir();
+            if(!Main.getInstance().getDataFolder().mkdir()) {
+                Main.getInstance().getLogger().severe("CONFIGURATION FILE NOT GENERATED.");
+            }
         }
 
         file = new File(Main.getInstance().getDataFolder(), fileName + ".yml");
         if (!file.exists()) {
             try {
-                file.createNewFile();
-                InputStream is = Main.class.getResourceAsStream(fileName + ".yml");
+                if(!file.createNewFile())
+                    Main.getInstance().getLogger().severe("CONFIGURATION FILE NOT GENERATED.");
+                InputStream is = Main.class.getResourceAsStream("/" + fileName + ".yml");
                 if (is != null) {
                     FileUtils.copyInputStreamToFile(is, file);
                 }

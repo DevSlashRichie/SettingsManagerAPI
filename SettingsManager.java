@@ -1,4 +1,4 @@
-package io.github.ricardormdev.bossaddon;
+package io.github.ricardormdev.paperserveranalytics;
 
 import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.ConfigurationSection;
@@ -36,18 +36,18 @@ public class SettingsManager {
      */
     private SettingsManager(String fileName) {
         this.fileName = fileName;
-        if (!Main.getInstance().getDataFolder().exists()) {
-            if(!Main.getInstance().getDataFolder().mkdir()) {
-                Main.getInstance().getLogger().severe("CONFIGURATION FILE NOT GENERATED.");
+        if (!PaperServerAnalytics.getInstance().getDataFolder().exists()) {
+            if(!PaperServerAnalytics.getInstance().getDataFolder().mkdir()) {
+                PaperServerAnalytics.getInstance().getLogger().severe("CONFIGURATION FILE NOT GENERATED.");
             }
         }
 
-        file = new File(Main.getInstance().getDataFolder(), fileName + ".yml");
+        file = new File(PaperServerAnalytics.getInstance().getDataFolder(), fileName + ".yml");
         if (!file.exists()) {
             try {
                 if(!file.createNewFile())
-                    Main.getInstance().getLogger().severe("CONFIGURATION FILE NOT GENERATED.");
-                InputStream is = Main.class.getResourceAsStream("/" + fileName + ".yml");
+                    PaperServerAnalytics.getInstance().getLogger().severe("CONFIGURATION FILE NOT GENERATED.");
+                InputStream is = PaperServerAnalytics.class.getResourceAsStream("/" + fileName + ".yml");
                 if (is != null) {
                     FileUtils.copyInputStreamToFile(is, file);
                 }
@@ -117,15 +117,15 @@ public class SettingsManager {
      * Reload the configuration.
      */
     public void reload() {
-        if (!Main.getInstance().getDataFolder().exists()) {
-            Main.getInstance().getDataFolder().mkdir();
+        if (!PaperServerAnalytics.getInstance().getDataFolder().exists()) {
+            PaperServerAnalytics.getInstance().getDataFolder().mkdir();
         }
 
-        file = new File(Main.getInstance().getDataFolder(), fileName + ".yml");
+        file = new File(PaperServerAnalytics.getInstance().getDataFolder(), fileName + ".yml");
         if (!file.exists()) {
             try {
                 file.createNewFile();
-                InputStream is = Main.class.getResourceAsStream(fileName + ".yml");
+                InputStream is = PaperServerAnalytics.class.getResourceAsStream(fileName + ".yml");
                 if (is != null) {
                     FileUtils.copyInputStreamToFile(is, file);
                 }
